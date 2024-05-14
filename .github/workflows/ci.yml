@@ -28,12 +28,12 @@ jobs:
             --push .
        
         - name: SSH to Ubuntu server
-          uses: appleboy/ssh-action@master
+          uses: easingthemes/ssh-deploy@v5.0.0
           with:
-            host: 18.162.120.66
-            username: ubuntu
-            key: ${{ secrets.SSH_KEY }}
-            script: |
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+            REMOTE_HOST: 18.162.120.66
+            REMOTE_USER: ubuntu
+            SCRIPT_AFTER: |
               sudo docker pull higherwil1995/whisky-map:latest
               sudo docker rm -f whisky-map-app || true
               sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
