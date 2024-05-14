@@ -30,8 +30,8 @@ jobs:
         - name: SSH to Ubuntu server
           uses: appleboy/ssh-action@master
           with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USERNAME }}
+            host: 18.162.120.66
+            username: ubuntu
             key: ${{ secrets.SSH_KEY }}
             script: |
               sudo docker pull higherwil1995/whisky-map:latest
