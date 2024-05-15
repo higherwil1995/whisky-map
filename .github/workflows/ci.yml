@@ -58,7 +58,7 @@ jobs:
       - name: Set permissions for private key
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
-          chmod 600 key.
+          chmod 600 key.pem
           
       - name: Pull new image
         run: |
