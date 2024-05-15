@@ -1,71 +1,49 @@
-name: FastAPI Docker Build and Push
+name: FastAPI Docker Build and Deploy
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build_and_push:
+    runs-on: ubuntu-latest
 
-        steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-        - name: Login to Docker Hub
-          env:
-            DOCKER_CLI_EXPERIMENTAL: enabled
-            DOCKER_BUILDKIT: 1
-          run: echo ${{ secrets.DOCKERHUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Login to Docker Hub
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
+          DOCKER_BUILDKIT: 1
+        run: echo ${{ secrets.DOCKERHUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
-        - name: Build and push Docker image
-          run: |
-            docker buildx create --use
-            docker buildx build \
+      - name: Build and push Docker image
+        run: |
+          docker buildx create --use
+          docker buildx build \
             --file Dockerfile \
             --tag higherwil1995/whisky-map:latest \
             --push .
-       
-        - name: SSH to Ubuntu server
-          uses: webfactory/ssh-agent@v0.5.0
-          with:
-            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-        - name: Add EC2 host to known hosts
-          run: ssh-keyscan -H 18.162.120.66 >> ~/.ssh/known_hosts
-          
-        - name: Deploy
-          run: |
-            sudo docker rm -f whisky-map-app || true
-            sudo docker pull higherwil1995/whisky-map:latest
-            sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
+  deploy_to_ec2:
+    runs-on: ubuntu-latest
 
-        # - name: SSH to Ubuntu server
-        #   uses: appleboy/ssh-action@v0.1.4
-        #   env:
-        #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #   with:
-        #     username: ${{ vars.SSH_USERNAME }}
-        #     host: ${{ vars.SSH_HOST }}
-        #     port: 22
-        #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-            # script: |
-            #   sudo docker pull higherwil1995/whisky-map:latest
-            #   sudo docker rm -f whisky-map-app || true
-            #   sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
+    steps:
+      - name: SSH to Ubuntu server
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-        # - name: Pull latest Docker Image
-        #   run: sudo docker pull higherwil1995/whisky-map:latest
+      - name: Add EC2 host to known hosts
+        run: ssh-keyscan -H 18.162.120.66 >> ~/.ssh/known_hosts
 
-        # - name: Remove existing Docker container (if exists)
-        #   run: sudo docker rm -f whisky-map-app || true
-
-        # - name: Run new Docker container
-        #   run: sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
-
-
-    
+      - name: Deploy
+        run: |
+          sudo docker rm -f whisky-map-app || true
+          sudo docker pull higherwil1995/whisky-map:latest
+          sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest

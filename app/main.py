@@ -12,5 +12,5 @@ def home():
 @app.get("/home")
 def hello_world():
     return {
-        "message": "Hello Insta360!",
+        "message": "Hello Sir!",
     }
