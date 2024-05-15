@@ -39,9 +39,12 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-strict: true
+          ssh-host: 18.162.120.66
+          ssh-user: ubuntu
 
-      - name: Add EC2 host to known hosts
-        run: ssh-keyscan -H 18.162.120.66 >> ~/.ssh/known_hosts
+      # - name: Add EC2 host to known hosts
+      #   run: ssh-keyscan -H 18.162.120.66 >> ~/.ssh/known_hosts
 
       - name: Deploy
         run: |
