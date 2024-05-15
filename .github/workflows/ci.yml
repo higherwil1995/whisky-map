@@ -28,7 +28,7 @@ jobs:
             --push .
        
         - name: SSH to Ubuntu server
-          uses: appleboy/ssh-action@master
+          uses: appleboy/ssh-action@v0.1.3
           with:
             username: ${{ vars.SSH_USERNAME }}
             host: ${{ vars.SSH_HOST }}
