@@ -12,5 +12,5 @@ def home():
 @app.get("/home")
 def hello_world():
     return {
-        "message": "Hello 香菜米酒!",
+        "message": "Hello 蛋塔!",
     }
