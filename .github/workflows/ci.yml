@@ -39,7 +39,7 @@ jobs:
             host: ${{ vars.SSH_HOST }}
             port: 22
             key: ${{ secrets.SSH_PRIVATE_KEY }}
-            script: whoami
+            script: sudo whoami
             # script: |
             #   sudo docker pull higherwil1995/whisky-map:latest
             #   sudo docker rm -f whisky-map-app || true
