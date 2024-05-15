@@ -41,6 +41,9 @@ jobs:
         - name: Deploy
           run: |
             whoami
+            sudo docker pull higherwil1995/whisky-map:latest
+            sudo docker rm -f whisky-map-app || true
+            sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
 
         # - name: SSH to Ubuntu server
         #   uses: appleboy/ssh-action@v0.1.4
