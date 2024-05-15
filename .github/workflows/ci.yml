@@ -30,13 +30,14 @@ jobs:
         - name: SSH to Ubuntu server
           uses: appleboy/ssh-action@master
           with:
-            key: ${{ secrets.SSH_KEY }}
+            username: ${{ vars.SSH_USERNAME }}
             host: ${{ vars.SSH_HOST }}
-            username: ${{ vars.SSH_USER }}
-            script: |
-              sudo docker pull higherwil1995/whisky-map:latest
-              sudo docker rm -f whisky-map-app || true
-              sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: whoami
+            # script: |
+            #   sudo docker pull higherwil1995/whisky-map:latest
+            #   sudo docker rm -f whisky-map-app || true
+            #   sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
 
         # - name: Pull latest Docker Image
         #   run: sudo docker pull higherwil1995/whisky-map:latest
