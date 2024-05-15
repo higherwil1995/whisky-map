@@ -30,39 +30,44 @@ jobs:
             --tag higherwil1995/whisky-map:latest \
             --push .
 
-  deploy_to_ec2:
+  # deploy_to_ec2:
+  #   needs: build_and_push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set permissions for private key
+  #       run: |
+  #         echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+  #         chmod 600 key.pem
+
+  #     - name: Pull new image
+  #       run: |
+  #         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo docker pull higherwil1995/whisky-map:latest'
+
+  #     - name: Remove old container
+  #       run: |
+  #         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo docker rm -f whisky-map-app || true'
+
+  #     - name: Run new container
+  #       run: |
+  #         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest'
+
+  deploy_to_local:
     needs: build_and_push
     runs-on: ubuntu-latest
-
-    # steps:
-    #   - name: SSH to Ubuntu server
-    #     uses: webfactory/ssh-agent@v0.5.0
-    #     with:
-    #       ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #       ssh-strict: true
-    #       ssh-host: 18.162.120.66
-    #       ssh-user: ubuntu
-
-    #   - name: Deploy
-    #     run: |
-    #       sudo docker rm -f whisky-map-app || true
-    #       sudo docker pull higherwil1995/whisky-map:latest
-    #       sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest
-
     steps:
       - name: Set permissions for private key
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
-          chmod 600 key.pem
-
-      - name: Pull newer image
+          chmod 600 key.
+          
+      - name: Pull new image
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo docker pull higherwil1995/whisky-map:latest'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@211.21.100.24 'sudo docker pull higherwil1995/whisky-map:latest'
 
       - name: Remove old container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo docker rm -f whisky-map-app || true'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@211.21.100.24 'sudo docker rm -f whisky-map-app || true'
 
       - name: Run new container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@211.21.100.24 'sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest'
