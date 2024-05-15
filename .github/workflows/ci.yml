@@ -31,15 +31,26 @@ jobs:
             --push .
        
         - name: SSH to Ubuntu server
-          uses: appleboy/ssh-action@v0.1.4
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          uses: webfactory/ssh-agent@v0.5.0
           with:
-            username: ${{ vars.SSH_USERNAME }}
-            host: ${{ vars.SSH_HOST }}
-            port: 22
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            script: sudo whoami
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+        - name: Add EC2 host to known hosts
+          run: ssh-keyscan -H 18.162.120.66 >> ~/.ssh/known_hosts
+          
+        - name: Deploy
+          run: |
+            whoami
+
+        # - name: SSH to Ubuntu server
+        #   uses: appleboy/ssh-action@v0.1.4
+        #   env:
+        #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #   with:
+        #     username: ${{ vars.SSH_USERNAME }}
+        #     host: ${{ vars.SSH_HOST }}
+        #     port: 22
+        #     key: ${{ secrets.SSH_PRIVATE_KEY }}
             # script: |
             #   sudo docker pull higherwil1995/whisky-map:latest
             #   sudo docker rm -f whisky-map-app || true
