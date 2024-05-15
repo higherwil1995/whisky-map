@@ -8,3 +8,9 @@ def home():
         "project": "Whisky-Map",
         "Version": "1.0.0",
     }
+
+@app.get("/home")
+def hello_world():
+    return {
+        "message": "Hello World!",
+    }
