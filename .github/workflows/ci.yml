@@ -62,12 +62,12 @@ jobs:
           
       - name: Pull new image
         run: |
-          ssh -o StrictHostKeyChecking=no -tt -i key.pem higherwil1995@211.21.100.24 'sudo docker pull higherwil1995/whisky-map:latest'
+          ssh -tt -i key.pem higherwil1995@211.21.100.24 'sudo docker pull higherwil1995/whisky-map:latest'
 
       - name: Remove old container
         run: |
-          ssh -o StrictHostKeyChecking=no -tt -i key.pem higherwil1995@211.21.100.24 'sudo docker rm -f whisky-map-app || true'
+          ssh -tt -i key.pem higherwil1995@211.21.100.24 'sudo docker rm -f whisky-map-app || true'
 
       - name: Run new container
         run: |
-          ssh -o StrictHostKeyChecking=no -tt -i key.pem higherwil1995@211.21.100.24 'sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest'
+          ssh -tt -i key.pem higherwil1995@211.21.100.24 'sudo docker run --name whisky-map-app -p 8000:8000 -d higherwil1995/whisky-map:latest'
