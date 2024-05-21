@@ -1,9 +1,10 @@
 from fastapi.responses import JSONResponse
 import pandas as pd
 from fastapi import FastAPI
-import pymongo, json
+import pymongo, json, logging
 from pymongo import MongoClient
 
+logging.basicConfig(filename="/app/logs/whisky-map.log", level=logging.INFO)
 
 app = FastAPI()
 
@@ -46,8 +47,10 @@ async def create_whisky(
     
     result = collection_whisky.insert_one(data)
     if not result.acknowledged:
+        logging.warning("寫入失敗！\n")
         print(f"{name} 寫入失敗！\n")
     
+    logging.info("成功寫入資料庫。")
     return JSONResponse(
         content={
             "message": f"{name} 成功寫入資料庫。"
