@@ -1,6 +1,7 @@
 from fastapi.responses import JSONResponse
+import pandas as pd
 from fastapi import FastAPI
-import pymongo
+import pymongo, json
 from pymongo import MongoClient
 
 
@@ -57,8 +58,10 @@ async def create_whisky(
 async def get_whisky():
     collection_whisky = open_conn(db="testdb", table="whisky")
     cursor = collection_whisky.find()
-    for item in cursor:
-        print(item)
+    df_result = pd.DataFrame(list(cursor))
+    del df_result['_id']
     
-    return 
+    json_result = df_result.to_json(orient="records")
+    
+    return json.loads(json_result)
     
