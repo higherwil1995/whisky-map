@@ -1,0 +1,39 @@
+name: Docker Compose Actions Workflow
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Build the Docker Image
+              run: docker-compose build --no-cache --force-rm
+    
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Build the stack
+              run: docker-compose up -d
+
+    deploy_to_ec2:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set permissions for private key
+              run: |
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+                chmod 600 key.pem
+
+            - name: Pull new code
+              run: |
+                ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo git pull'
+
+            - name: Renew container
+              run: |
+                ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@18.162.120.66 'sudo docker-compose down && sudo docker-compose up'
+            
+            
