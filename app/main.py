@@ -9,8 +9,14 @@ from pymongo import MongoClient
 
 app = FastAPI(
     title="Whisky-map-app",
+    summary="""
+    為了熟悉、掌握 FastAPI 功能而建立的應用程式，提供威士忌的寄酒資訊管理介面。
+    """,
     description="""
-    為了熟悉、掌握 FastAPI 功能而建立的應用程式，提供威士忌的資訊管理介面。
+    預計開發功能：
+    會員資訊 新增、刪除、查詢、修改
+    威士忌資訊 新增、刪除、查詢、修改
+    寄酒資訊 新增、刪除、查詢、修改
     """,
     version="1.0.0",
 )
