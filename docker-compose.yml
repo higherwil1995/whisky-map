@@ -2,12 +2,13 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    # build: .
+    image: higherwil1995/whisky-map:latest
     container_name: whisky-map-app
     ports:
       - "8000:8000"
-    environment:
-      - NAME=whisky-map-venv
+    # environment:
+    #   - NAME=whisky-map-venv
     depends_on:
       - mongodb
     networks:

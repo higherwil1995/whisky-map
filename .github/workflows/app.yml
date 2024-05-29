@@ -49,13 +49,22 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
                 
+            # - name: Build and push docker image
+            #   uses: docker/build-push-action@v3  
+            #   with:
+            #     context: .
+            #     file: Dockerfile
+            #     push: true
+            #     tags: higherwil1995/whisky-map:latest
+
             - name: Build and push docker image
-              uses: docker/build-push-action@v3  
-              with:
-                context: .
-                file: Dockerfile
-                push: true
-                tags: higherwil1995/whisky-map:latest
+              run: |
+                docker buildx create --use
+                docker buildx build \
+                  --playform linux/amd64, linux/arm64 \
+                  --file Dockerfile \
+                  --tag higherwil1995/whisky-map:latest \
+                  --push .
 
     image_test:
       runs-on: ubuntu-latest
