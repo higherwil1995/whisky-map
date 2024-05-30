@@ -68,12 +68,12 @@ jobs:
 
     deploy_to_ec2:
       runs-on: ubuntu-latest
-      needs: image_build_test
+      # needs: image_build_test
       steps:
         - name: Setup SSH for EC2
           uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
           with:
-            # EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+            EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
             EC2_URL: 43.198.111.149
             EC2_USERNAME: ubuntu
 
