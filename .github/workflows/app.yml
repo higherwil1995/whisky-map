@@ -77,7 +77,7 @@ jobs:
             EC2_URL: 43.198.111.149
             EC2_USERNAME: ubuntu
             run: |
-              ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL 'sudo docker pull higherwil1995/whisky-map:latest'
+              ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "sudo git pull git@github.com:higherwil1995/whisky-map.git"
         
 
         # - name: Set permissons for private key
