@@ -72,7 +72,7 @@ jobs:
       steps:
         - name: Set permissons for private key
           run: |
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+            echo "${{ secrets.EC2_PRIVATE_KEY }}" > key.pem
             chmod 600 key.pem
 
         - name: Pull Repository
