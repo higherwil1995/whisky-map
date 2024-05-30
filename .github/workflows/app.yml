@@ -74,8 +74,10 @@ jobs:
           uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
           with:
             EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+            EC2_URL: 43.198.111.149
+            EC2_USERNAME: ubuntu
             run: |
-              ssh -o StrictHostKeyChecking=no ubuntu@43.198.111.149 'sudo docker pull higherwil1995/whisky-map:latest'
+              ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL 'sudo docker pull higherwil1995/whisky-map:latest'
         
 
         # - name: Set permissons for private key
