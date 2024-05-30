@@ -73,13 +73,18 @@ jobs:
         - name: Setup SSH for EC2
           uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
           with:
-            EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+            # EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
             EC2_URL: 43.198.111.149
             EC2_USERNAME: ubuntu
 
+        - name: Set permissons for private key
+          run: |
+            echo "${{ secrets.EC2_PRIVATE_KEY }}" > key.pem
+            chmod 600 key.pem
+
         - name: pull new code
           run: |
-            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "sudo pwd"
+            ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USERNAME@$EC2_URL "sudo pwd"
         
 
         # - name: Set permissons for private key
