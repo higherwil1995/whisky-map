@@ -76,8 +76,10 @@ jobs:
             EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
             EC2_URL: 43.198.111.149
             EC2_USERNAME: ubuntu
-            run: |
-              ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "sudo git pull git@github.com:higherwil1995/whisky-map.git"
+
+        - name: pull new code
+          run: |
+            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL "sudo git pull git@github.com:higherwil1995/whisky-map.git"
         
 
         # - name: Set permissons for private key
