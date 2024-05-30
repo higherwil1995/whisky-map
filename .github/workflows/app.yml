@@ -81,7 +81,7 @@ jobs:
 
         - name: pull new code
           run: |
-            scp -o StrictHostKeyChecking=no -i key.pem docker-compose.yml ubuntu@43.198.111.149:/home/ubuntu/ \
+            scp -o StrictHostKeyChecking=no -i key.pem docker-compose.yml ubuntu@43.198.111.149:/home/ubuntu/
             ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@43.198.111.149 "sudo cat /home/ubuntu/docker-compose.yml"
         
 
