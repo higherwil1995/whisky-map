@@ -84,5 +84,5 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@43.198.111.149 "sudo mkdir -p /project/whisky-map-app"
             ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@43.198.111.149 "sudo docker compose down"
             scp -o StrictHostKeyChecking=no -i key.pem docker-compose.yml ubuntu@43.198.111.149:/project/whisky-map-app/
-            ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@43.198.111.149 "sudo docker compose up"
+            ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@43.198.111.149 "sudo docker compose up -d"
 
