@@ -3,6 +3,8 @@ import pandas as pd
 from fastapi import FastAPI
 import pymongo, json, logging
 from pymongo import MongoClient
+from pydantic import BaseModel
+from typing import Optional
 # from config import config
 
 # logging.basicConfig(filename="/app/logs/whisky-map.log", level=logging.INFO)
@@ -20,7 +22,24 @@ app = FastAPI(
     """,
     version="1.0.0",
 )
+# TODO: model object than ODM to Mongodb.
+class Whisky(BaseModel):
+    name: str
+    country: str
+    region: str
+    abv: float
+    volume: int
+
+class Customer(BaseModel):
+    name: str
+    phone_number: str
+    email: Optional[str]
     
+class Staff(BaseModel):
+    name: str
+    
+class Record(BaseModel):
+    id: int
 
 @app.get("/")
 def home():
@@ -43,30 +62,27 @@ def open_conn(
 
 @app.post("/whiskys")
 async def create_whisky(
-    name: str,
-    country: str,
-    region: str,
-    abv: float,
-    volume: int,
+    whisky: Whisky,
 ):
-    data = {
-        "name": name,
-        "country": country,
-        "region": region,
-        "abv": abv,
-        "volume": volume,
-    }
+    # data = {
+    #     "name": whisky.name,
+    #     "country": whisky.country,
+    #     "region": whisky.region,
+    #     "abv": whisky.abv,
+    #     "volume": whisky.volume,
+    # }
+    data = whisky.model_dump_json()
     
     collection_whisky = open_conn(db="app", table="whisky")
     
     result = collection_whisky.insert_one(data)
     if not result.acknowledged:
-        logging.warning(f"{name} 寫入失敗！\n")
-        print(f"{name} 寫入失敗！\n")
+        logging.warning(f"{whisky.name} 寫入失敗！\n")
+        print(f"{whisky.name} 寫入失敗！\n")
     
     return JSONResponse(
         content={
-            "message": f"{name} 成功寫入資料庫。"
+            "message": f"{whisky.name} 成功寫入資料庫。"
         }
     )
     
