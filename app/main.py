@@ -97,7 +97,7 @@ async def get_whisky():
     return json.loads(json_result)
     
 @app.get("/customers", tags=["Customer"])
-async def get_customer(customer: Customer):
+async def get_customer():
     collection_customer = open_conn(db="app", table="customer")
     cursor = collection_customer.find()
     df_result = pd.DataFrame(list(cursor))
