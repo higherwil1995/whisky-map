@@ -1,13 +1,10 @@
 from fastapi.responses import JSONResponse
 import pandas as pd
-from fastapi import FastAPI
-import pymongo, json, logging
+from fastapi import FastAPI, Body
+import pymongo, json, logging, dotenv
 from pymongo import MongoClient
 from pydantic import BaseModel
-from typing import Optional
-# from config import config
-
-# logging.basicConfig(filename="/app/logs/whisky-map.log", level=logging.INFO)
+from typing import Optional, Annotated
 
 app = FastAPI(
     title="Whisky-map-app",
@@ -22,6 +19,9 @@ app = FastAPI(
     """,
     version="1.0.0",
 )
+
+db_config = dotenv.dotenv_values(".env")
+
 # TODO: model object than ODM to Mongodb.
 class Whisky(BaseModel):
     name: str
@@ -49,8 +49,9 @@ def home():
     }
 
 def open_conn(
-    username = "root",
-    password = "root",
+    # 依需求調整即可
+    username = db_config["MONGO_INITDB_ROOT_USERNAME"],
+    password = db_config["MONGO_INITDB_ROOT_PASSWORD"],
     host = "whisky-map-mongodb",
     port = 27017,
     db = "",
@@ -61,17 +62,8 @@ def open_conn(
   return conn[db][table]
 
 @app.post("/whiskys")
-async def create_whisky(
-    whisky: Whisky,
-):
-    # data = {
-    #     "name": whisky.name,
-    #     "country": whisky.country,
-    #     "region": whisky.region,
-    #     "abv": whisky.abv,
-    #     "volume": whisky.volume,
-    # }
-    data = whisky.model_dump_json()
+async def create_whisky(whisky: Whisky):
+    data = whisky.model_dump()
     
     collection_whisky = open_conn(db="app", table="whisky")
     

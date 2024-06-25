@@ -4,3 +4,7 @@
 .pytest_cache
 
 whisky-map-venv
+
+data
+
+.env
