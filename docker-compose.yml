@@ -1,14 +1,10 @@
-version: '3.8'
-
 services:
   app:
-    # build: .
-    image: higherwil1995/whisky-map:latest
+    build: .
+    # image: higherwil1995/whisky-map:latest
     container_name: whisky-map-app
     ports:
       - "8000:8000"
-    # environment:
-    #   - NAME=whisky-map-venv
     depends_on:
       - mongodb
     networks:
@@ -18,17 +14,24 @@ services:
     image: mongo:7.0
     container_name: whisky-map-mongodb
     restart: always
+    env_file:
+      - .env
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-      - MONGO_INITDB_DATABASE=app
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
     volumes:
       - ./mongodb/initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - ./mongodb/data/db:/data/db
+      - mongodb-log:/var/log/mongodb/
     ports:
       - "27017:27017"
     networks:
       - app-network
+
+volumes:
+  mongodb-log:
+    driver: local
 
 networks:
   app-network:
