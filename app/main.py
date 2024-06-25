@@ -45,7 +45,7 @@ class Staff(BaseModel):
 class Record(BaseModel):
     id: int
 
-@app.get("/")
+@app.get("/", tags=["Home"])
 def home():
     return {
         "project": "Whisky-Map",
@@ -65,7 +65,7 @@ def open_conn(
   conn = pymongo.MongoClient(uri)
   return conn[db][table]
 
-@app.post("/whiskys")
+@app.post("/whiskys", tags=["Whisky"])
 async def create_whisky(whisky: Whisky):
     data = whisky.model_dump()
     
@@ -82,7 +82,7 @@ async def create_whisky(whisky: Whisky):
         }
     )
     
-@app.get("/whiskys")
+@app.get("/whiskys", tags=["Whisky"])
 async def get_whisky():
     collection_whisky = open_conn(db="app", table="whisky")
     cursor = collection_whisky.find()
