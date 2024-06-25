@@ -2,6 +2,7 @@ from fastapi.responses import JSONResponse
 import pandas as pd
 from fastapi import FastAPI, Body
 import pymongo, json, logging, dotenv
+from dotenv import dotenv_values
 from pymongo import MongoClient
 from pydantic import BaseModel
 from typing import Optional, Annotated
@@ -20,7 +21,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
-db_config = dotenv.dotenv_values(".env")
+db_config = {
+    **dotenv_values(".env"),
+    **dotenv_values(".env.example")
+}
 
 # TODO: model object than ODM to Mongodb.
 class Whisky(BaseModel):
