@@ -29,4 +29,4 @@ docker-compose up
 
 這將會建立並啟動相關的容器，包括 FastAPI 伺服器和 MongoDB 資料庫。
 
-現在，您可以在瀏覽器中輸入 `http://localhost:8000` 來訪問 Whisky Map App。
+現在，您可以在瀏覽器中輸入 `http://127.0.0.1:8000/docs` 來訪問 Whisky Map App 的 Swagger Web UI。
