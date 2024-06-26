@@ -96,22 +96,7 @@ async def get_whisky():
     
     return json.loads(json_result)
     
-@app.post("/customers", tags=["Customer"])
-async def create_customer(customer: Customer):
-    data = customer.model_dump()
-    
-    collection_customer = open_conn(db="app", table="customer")
-    
-    result = collection_customer.insert_one(data)
-    if not result.acknowledged:
-        logging.warning(f"{customer.name} 寫入失敗！\n")
-        print(f"{customer.name} 寫入失敗！\n")
-    
-    return JSONResponse(
-        content={
-            "message": f"{customer.name} 成功寫入資料庫。"
-        }
-    )    
+
     
 @app.get("/customers", tags=["Customer"])
 async def get_customer():
