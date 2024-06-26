@@ -1,0 +1,14 @@
+services:
+  whisky-map-app:
+    image: ghcr.io/higherwil1995/whisky-map:latest
+    ports:
+      - "8000:8000"
+    restart: always
+
+  watchtower:
+    image: containrrr/watchtower
+    restart: always
+    volumes:
+      - $HOME/.docker/config.json:/config.json
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 5 --cleanup
