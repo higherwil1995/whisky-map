@@ -81,19 +81,19 @@ async def create_whisky(whisky: Whisky):
         }
     )
     
-# @app.get("/whiskys", tags=["Whisky"])
-# async def get_whisky():
-#     collection_whisky = open_conn(db="app", table="whisky")
-#     cursor = collection_whisky.find()
-#     df_result = pd.DataFrame(list(cursor))
+@app.get("/whiskys", tags=["Whisky"])
+async def get_whisky():
+    collection_whisky = open_conn(db="app", table="whisky")
+    cursor = collection_whisky.find()
+    df_result = pd.DataFrame(list(cursor))
     
-#     if df_result.empty:
-#         return {"message": "whisky data not found."}
+    if df_result.empty:
+        return {"message": "whisky data not found."}
     
-#     del df_result['_id']
-#     json_result = df_result.to_json(orient="records")
+    del df_result['_id']
+    json_result = df_result.to_json(orient="records")
     
-#     return json.loads(json_result)
+    return json.loads(json_result)
     
 @app.post("/customers", tags=["Customer"])
 async def create_customer(customer: Customer):
