@@ -16,8 +16,11 @@ EXPOSE 8000
 # Define environment variable
 ENV NAME whisky-map-venv
 
-# 設定 ENTRYPOINT
-ENTRYPOINT ["python", "-m", "uvicorn"]
+# # 設定 ENTRYPOINT
+# ENTRYPOINT ["python", "-m", "uvicorn"]
 
-# Run main.py when the container launches
-CMD ["app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]DockerfileCopy code
+# # Run main.py when the container launches
+# CMD ["app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]DockerfileCopy code
+
+ENTRYPOINT ["uvicorn", "app.main:app"]
+CMD ["--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
