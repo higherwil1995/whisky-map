@@ -3,11 +3,11 @@ import logging
 from typing import Optional
 
 import pandas as pd
+import pymongo
+from dotenv import dotenv_values
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-import pymongo
-from dotenv import dotenv_values
 
 app = FastAPI(
     title="Whisky-map-app",
