@@ -130,3 +130,7 @@ async def get_customer():
 @app.post("/appointments", tags=["Appointment"])
 async def create_appointment():
     return {"message": "create appointment."}
+
+@app.get("/appointments", tags=["Appointment"])
+async def get_appointment():
+    return {"message": "get appointment."}
