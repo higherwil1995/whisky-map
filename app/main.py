@@ -126,3 +126,7 @@ async def get_customer():
     json_result = df_result.to_json(orient="records")
 
     return json.loads(json_result)
+
+@app.post("/appointments", tags=["Appointment"])
+async def create_appointment():
+    return {"message": "create appointment."}

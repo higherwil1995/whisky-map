@@ -1,7 +1,7 @@
 services:
   app:
-    build: .
-    # image: higherwil1995/whisky-map:latest
+    # build: .
+    image: higherwil1995/whisky-map:latest
     container_name: whisky-map-app
     ports:
       - "8000:8000"
