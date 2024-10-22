@@ -28,7 +28,11 @@ jobs:
         
         - name: Run linters
           run: |
-            ruff .
+            ruff check .
+            # black --check .
+            # isort --check-only .
+            # mypy .
+            # flake8 . --ignore=N999  # 忽略包名稱檢查
 
     test_code:
       name: Test Code
