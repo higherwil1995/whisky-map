@@ -1,11 +1,13 @@
-from fastapi.responses import JSONResponse
+import json
+import logging
+from typing import Optional
+
 import pandas as pd
-from fastapi import FastAPI, Body
-import pymongo, json, logging, dotenv
-from dotenv import dotenv_values
-from pymongo import MongoClient
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from typing import Optional, Annotated
+import pymongo
+from dotenv import dotenv_values
 
 app = FastAPI(
     title="Whisky-map-app",
