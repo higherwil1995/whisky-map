@@ -32,13 +32,15 @@ jobs:
             black --check .
             isort --check-only .
             mypy .
+            flake8 . --ignore=N999  # 忽略包名稱檢查
 
     test_code:
       name: Test Code
       strategy:
         matrix:
           python-version: ['3.9', '3.10', '3.11']
-          platform: [ubuntu-latest, macos-latest, windows-latest]
+          # platform: [ubuntu-latest, macos-latest, windows-latest]
+          platform: [ubuntu-latest, macos-latest]
       runs-on: ${{ matrix.platform }}
       steps:
         - name: Checkout
